@@ -1,4 +1,4 @@
-ARG BRAIN_VERSION
+ARG BRAIN_VERSION=latest
 
 FROM ghcr.io/dappnode/staking-brain:${BRAIN_VERSION}
 

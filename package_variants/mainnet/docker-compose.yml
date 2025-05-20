@@ -4,7 +4,7 @@ services:
     build:
       args:
         NETWORK: mainnet
-
+    image: brain.web3signer.dnp.dappnode.eth:2.0.14
   web3signer:
     build:
       args:
@@ -19,15 +19,13 @@ services:
       interval: 5s
       timeout: 5s
       retries: 100
-
+    image: web3signer.web3signer.dnp.dappnode.eth:2.0.14
   flyway:
-    build:
-      args:
-        NETWORK: mainnet
-        PGPASSWORD: mainnet
-        POSTGRES_DB: web3signer-mainnet
-        POSTGRES_USER: postgres
-
+    image: floriansaw/flyway-web3signer:25.3.0
+    depends_on:
+      postgres:
+        condition: service_started
+    restart: on-failure
   postgres:
     build:
       dockerfile: Dockerfile.alpine
@@ -36,3 +34,4 @@ services:
         PGPASSWORD: mainnet
         POSTGRES_DB: web3signer-mainnet
         POSTGRES_USER: postgres
+    image: postgres.web3signer.dnp.dappnode.eth:2.0.14

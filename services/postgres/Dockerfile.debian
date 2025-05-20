@@ -1,4 +1,4 @@
-FROM alpine:3.15.0 as migrations-download
+FROM alpine:3.15.0 AS migrations-download
 ARG WEB3SIGNER_VERSION
 WORKDIR /usr/src/app
 

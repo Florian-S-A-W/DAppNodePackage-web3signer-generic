@@ -4,7 +4,7 @@ services:
     build:
       args:
         NETWORK: lukso
-
+    image: brain.web3signer-lukso.dnp.dappnode.eth:0.1.5
   web3signer:
     build:
       args:
@@ -18,14 +18,13 @@ services:
       interval: 5s
       timeout: 5s
       retries: 100
-
+    image: web3signer.web3signer-lukso.dnp.dappnode.eth:0.1.5
   flyway:
-    build:
-      args:
-        NETWORK: lukso
-        PGPASSWORD: password
-        POSTGRES_DB: web3signer
-
+    image: floriansaw/flyway-web3signer:25.3.0
+    depends_on:
+      postgres:
+        condition: service_started
+    restart: on-failure
   postgres:
     build:
       dockerfile: Dockerfile.debian
@@ -33,3 +32,4 @@ services:
         POSTGRES_PASSWORD: password
         PGPASSWORD: password
         POSTGRES_DB: web3signer
+    image: postgres.web3signer-lukso.dnp.dappnode.eth:0.1.5

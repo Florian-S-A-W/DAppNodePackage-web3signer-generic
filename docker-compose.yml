@@ -4,7 +4,7 @@ services:
     build:
       context: services/brain
       args:
-        BRAIN_VERSION: 0.1.28
+        BRAIN_VERSION: latest
     environment:
       - LOG_LEVEL=debug
     restart: unless-stopped
@@ -30,11 +30,7 @@ services:
       - web3signer_data:/data
     restart: unless-stopped
   flyway:
-    build:
-      context: services/flyway
-      args:
-        WEB3SIGNER_VERSION: 25.3.0
-        POSTGRES_USER: postgres
+    image: floriansaw/flyway-web3signer:25.3.0
     depends_on:
       postgres:
         condition: service_started
@@ -42,6 +38,7 @@ services:
   postgres:
     build:
       context: services/postgres
+      dockerfile: Dockerfile.alpine
       args:
         WEB3SIGNER_VERSION: 25.3.0
         DATA_DIR: /var/lib/postgresql/data

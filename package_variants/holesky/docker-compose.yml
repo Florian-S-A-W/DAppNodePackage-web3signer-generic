@@ -4,7 +4,7 @@ services:
     build:
       args:
         NETWORK: holesky
-
+    image: brain.web3signer-holesky.dnp.dappnode.eth:0.1.11
   web3signer:
     build:
       args:
@@ -18,14 +18,13 @@ services:
       interval: 5s
       timeout: 5s
       retries: 100
-
+    image: web3signer.web3signer-holesky.dnp.dappnode.eth:0.1.11
   flyway:
-    build:
-      args:
-        NETWORK: holesky
-        PGPASSWORD: password
-        POSTGRES_DB: web3signer
-
+    image: floriansaw/flyway-web3signer:25.3.0
+    depends_on:
+      postgres:
+        condition: service_started
+    restart: on-failure
   postgres:
     build:
       dockerfile: Dockerfile.alpine
@@ -33,3 +32,4 @@ services:
         POSTGRES_PASSWORD: password
         PGPASSWORD: password
         POSTGRES_DB: web3signer
+    image: postgres.web3signer-holesky.dnp.dappnode.eth:0.1.11

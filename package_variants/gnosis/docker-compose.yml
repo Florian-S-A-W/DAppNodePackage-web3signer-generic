@@ -4,7 +4,7 @@ services:
     build:
       args:
         NETWORK: gnosis
-
+    image: brain.web3signer-gnosis.dnp.dappnode.eth:1.0.14
   web3signer:
     build:
       args:
@@ -18,14 +18,13 @@ services:
       interval: 5s
       timeout: 5s
       retries: 100
-
+    image: web3signer.web3signer-gnosis.dnp.dappnode.eth:1.0.14
   flyway:
-    build:
-      args:
-        NETWORK: gnosis
-        PGPASSWORD: gnosis
-        POSTGRES_DB: web3signer-gnosis
-
+    image: floriansaw/flyway-web3signer:25.3.0
+    depends_on:
+      postgres:
+        condition: service_started
+    restart: on-failure
   postgres:
     build:
       dockerfile: Dockerfile.debian
@@ -33,3 +32,4 @@ services:
         POSTGRES_PASSWORD: gnosis
         PGPASSWORD: gnosis
         POSTGRES_DB: web3signer-gnosis
+    image: postgres.web3signer-gnosis.dnp.dappnode.eth:1.0.14
